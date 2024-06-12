@@ -48,3 +48,6 @@ class AppointmentResponse(BaseModel):
     hospital_address: str
     date: str
     time: str
+
+class LogoutRequest(BaseModel):
+    email: EmailStr

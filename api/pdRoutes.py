@@ -1,37 +1,37 @@
 import os
 import logging
-import torch
 from collections import Counter
+import torch
 
 import aiofiles
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, File, UploadFile, HTTPException
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 
-from services.pdService import AudioInferenceService  # Assuming the audio service is in this module
+from dto.pdDto import PredictionResponseDTO
+from services.pdService import AudioInferenceService
 
 router = APIRouter()
 
-# Initialize the inference service with the appropriate model path
 model_path = 'PDmodel/trainedmodel/best_model.pth'
 inference_service = AudioInferenceService(model_path, device='cuda' if torch.cuda.is_available() else 'cpu')
 
-
-@router.post("/predict", response_model=dict)
-async def predict(request: Request):
+@router.post("/pd/predict", response_model=PredictionResponseDTO)
+async def predict(audio: UploadFile = File(...)):
     try:
         async with aiofiles.tempfile.NamedTemporaryFile("wb", delete=False) as temp:
             try:
-                contents = await request.body()
+                contents = await audio.read()
                 await temp.write(contents)
+                temp_path = temp.name
             except Exception as e:
                 raise HTTPException(status_code=400, detail=f"There was an error uploading the file: {str(e)}")
 
-        predicted_labels, overall_prediction = await run_in_threadpool(inference_service.process_audio, temp.name)
+        predicted_labels, overall_prediction = await run_in_threadpool(inference_service.process_audio, temp_path)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error processing audio: {str(e)}")
     finally:
-        os.remove(temp.name)
+        os.remove(temp_path)
 
     predicted_labels = dict(Counter(predicted_labels).most_common())
-    return JSONResponse(content={"predicted_labels": predicted_labels, "overall_prediction": overall_prediction})
+    return PredictionResponseDTO(predicted_labels=predicted_labels, overall_prediction=overall_prediction)

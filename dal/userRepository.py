@@ -1,10 +1,9 @@
 import logging
-
+from datetime import datetime
+from fastapi import HTTPException
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
 from models.userModel import UserProfile, User, Appointment
-from datetime import datetime
-from fastapi import HTTPException
 
 class UserRepository:
     def find_by_email(self, email: str):

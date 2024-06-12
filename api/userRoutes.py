@@ -1,10 +1,8 @@
 import logging
 from fastapi import APIRouter, HTTPException, Depends
-from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, \
-    HTTP_404_NOT_FOUND
+from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
 from pydantic import EmailStr, ValidationError
-from dto.userDto import LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, ErrorResponse, \
-    UserProfileUpdateRequest, UserProfileResponse, AppointmentRequest, AppointmentResponse
+from dto.userDto import LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, ErrorResponse, UserProfileUpdateRequest, UserProfileResponse, AppointmentRequest, AppointmentResponse, LogoutRequest
 from dto.userDto import MessageResponse
 from services.userService import UserService
 from dal.userRepository import UserRepository
@@ -76,7 +74,7 @@ async def register(register_request: RegisterRequest, user_service: UserService 
 
 
 @router.put("/profile", response_model=MessageResponse,
-            responses={401: {"model": ErrorResponse}, 404: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
+            responses={401: {"model": ErrorResponse}, 400: {"model": ErrorResponse}, 404: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
 async def update_user_profile(
         profile_update_request: UserProfileUpdateRequest,
         user_service: UserService = Depends(get_user_service)
@@ -93,6 +91,15 @@ async def update_user_profile(
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Date of birth field is required")
 
     try:
+        current_profile = user_service.get_user_profile(user_email)
+        if not current_profile:
+            raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="User profile not found")
+
+        if (current_profile.name == profile_update_request.name and
+                current_profile.date_of_birth == profile_update_request.date_of_birth and
+                current_profile.profile_image == profile_update_request.profile_image):
+            return MessageResponse(message="No changes detected")
+
         result = user_service.update_profile(
             email=user_email,
             name=profile_update_request.name,
@@ -181,3 +188,20 @@ async def get_appointments(email: str, user_service: UserService = Depends(get_u
         logging.error(f"Error fetching appointments for {email}: {e}")
         raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR,
                             detail="An error occurred while fetching appointments")
+
+
+@router.post("/logout", response_model=MessageResponse,
+             responses={400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
+async def logout(logout_request: LogoutRequest, user_service: UserService = Depends(get_user_service)):
+    email = logout_request.email
+
+    if not email:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Email field is required")
+
+    try:
+        # Any additional logout logic can be placed here
+        return MessageResponse(message="Logout successful")
+    except Exception as e:
+        logging.error(f"Logout failed: {e}")
+        raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="An error occurred during logout")

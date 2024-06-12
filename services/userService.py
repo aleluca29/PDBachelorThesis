@@ -2,12 +2,19 @@ import logging
 
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from dto.userDto import UserProfileResponse
 from models.userModel import User, UserProfile, Appointment
 from datetime import datetime
 from fastapi import HTTPException
 from exceptions import UserAlreadyExistsException, UserNotFoundException
+
+import logging
+from datetime import datetime
+from fastapi import HTTPException
+from werkzeug.security import generate_password_hash, check_password_hash
+from exceptions import UserAlreadyExistsException, UserNotFoundException
+from dto.userDto import UserProfileResponse
+from models.userModel import User
 
 class UserService:
     def __init__(self, user_repository):
@@ -67,11 +74,11 @@ class UserService:
                     profile_image=user_profile.profile_image
                 )
             else:
-                # Return an empty profile instead of raising an exception
-                return UserProfileResponse(name="", date_of_birth=None, profile_image=None)
+                return None
         except Exception as e:
             logging.error(f"Error fetching profile for user {email}: {e}")
             raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Service error during profile fetch")
+
     def save_appointment(self, email: str, hospital_name: str, hospital_address: str, date: str, time: str):
         try:
             user = self.user_repository.find_by_email(email)
