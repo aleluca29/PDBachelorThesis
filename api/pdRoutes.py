@@ -16,7 +16,7 @@ router = APIRouter()
 model_path = 'PDmodel/trainedmodel/best_model.pth'
 inference_service = AudioInferenceService(model_path, device='cuda' if torch.cuda.is_available() else 'cpu')
 
-@router.post("/pd/predict", response_model=PredictionResponseDTO)
+@router.post("/predict", response_model=PredictionResponseDTO)
 async def predict(audio: UploadFile = File(...)):
     try:
         async with aiofiles.tempfile.NamedTemporaryFile("wb", delete=False) as temp:

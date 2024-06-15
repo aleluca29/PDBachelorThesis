@@ -41,6 +41,10 @@ class AudioInferenceService:
         # Load the audio file
         waveform, sample_rate = torchaudio.load(audio_path)
 
+        # Convert to mono if necessary
+        if waveform.size(0) > 1:
+            waveform = waveform.mean(dim=0, keepdim=True)
+
         # Resample if necessary
         target_sample_rate = 16000
         if sample_rate != target_sample_rate:
@@ -66,4 +70,9 @@ class AudioInferenceService:
                 predicted_labels.append(predicted_label)
 
         overall_prediction = max(set(predicted_labels), key=predicted_labels.count)
+
+        # Print segment predictions and overall prediction
+        print(f"Segment predictions: {predicted_labels}")
+        print(f"Overall prediction: {'HC' if overall_prediction == 0 else 'PD'}")
+
         return predicted_labels, overall_prediction

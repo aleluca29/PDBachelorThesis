@@ -19,7 +19,7 @@ def get_user_service() -> UserService:
              responses={401: {"model": ErrorResponse}, 400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
 async def login(login_request: LoginRequest, user_service: UserService = Depends(get_user_service)):
     try:
-        EmailStr.validate(login_request.email)  # Validate email format
+        EmailStr.validate(login_request.email)
     except ValidationError:
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Invalid email format")
 
