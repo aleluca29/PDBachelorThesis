@@ -1,5 +1,7 @@
 # Parkinson Center: A Healthcare Mobile Application for Voice-Based Detection on Parkinson’s Disease Recognition
 
+## [Parkinson Center GitHub Repository](https://github.com/aleluca29/PDBachelorThesis)
+
 ## Overview
 This project aims to develop a mobile application that uses audio classification to detect Parkinson’s Disease. The application also includes an educational section to help users learn about Parkinson’s Disease.
 
