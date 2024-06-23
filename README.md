@@ -1,15 +1,15 @@
 # Parkinson Center: A Healthcare Mobile Application for Voice-Based Detection on Parkinson’s Disease Recognition
 
 ## Overview
-This project aims to develop a mobile application that uses audio classification technology to detect Parkinson’s disease. The application also includes educational section to help users learn about Parkinson’s disease.
+This project aims to develop a mobile application that uses audio classification to detect Parkinson’s Disease. The application also includes an educational section to help users learn about Parkinson’s Disease.
 
 ## Features
 
 - *Parkinson’s Disease Detection*:
-  - Record voice samples.
+  - Record voice audios.
   - Upload existing voice recordings.
   - Audio classification.
-  - Display analysis results and recommend professional help if needed.
+  - Display analysis results and recommend professional help if it is needed.
   - Book appointments with medical specialists if symptoms are detected.
   - View and manage booked appointments.
 
@@ -19,15 +19,15 @@ This project aims to develop a mobile application that uses audio classification
   - View avatar and logout functionalities.
 
 - *Educational Section*:
-  - Learn about Parkinson’s disease.
-  - Access information on treatments and prevention.
-  - Search and filter topics related to Parkinson’s disease.
+  - Learn about Parkinson’s Disease.
+  - Access information on Parkinson’s Disease.
+  - Search and filter topics related to Parkinson’s Disease.
 
 ## Installation
 
 ### Prerequisites
 
-- *Node.js and npm*: Node.js (version 14.x or later), npm (version 6.x or later)
+- *Node.js and npm*: Node.js (version 14.x or later) and npm (version 6.x or later)
 - *Python*: Python 3.9 or later
 - *MongoDB*: MongoDB 4.4 or later
 - *Expo CLI*: Expo CLI 0.7.3 or later
@@ -50,12 +50,17 @@ This project aims to develop a mobile application that uses audio classification
     npm install -g expo-cli@latest
     ```
 
+## Clone the repository:
+    ```sh
+    git clone https://github.com/aleluca29/PDBachelorThesis.git
+    cd Thesis
+    ```
+    
 ### Backend Setup
 
-1. Clone the repository:
+1. Navigate to the backend directory:
     ```sh
-    git clone https://github.com/your-repo/parkinson-center.git
-    cd parkinson-center/backend
+    cd backend
     ```
 
 2. Create and activate a Conda environment:
@@ -98,7 +103,7 @@ This project aims to develop a mobile application that uses audio classification
 
 ## Usage
 
-To use the application, both the backend and frontend servers must be running:
+In order to use the application, both the backend and frontend servers must be run:
 
 1. Ensure the FastAPI backend server is running:
     ```sh
@@ -110,11 +115,11 @@ To use the application, both the backend and frontend servers must be running:
     npm start
     ```
 
-3. Launch the app on your mobile device using Expo Go.
-4. Register a new user or login with existing credentials.
+3. Launch the Parkinson Center app on your mobile device using Expo Go.
+4. Register a new user or login with existing account.
 5. Navigate through the app to:
-    - *Detect*: Record, upload, and analyze voice samples.
-    - *Learn*: Access educational resources to learn about Parkinson’s disease.
+    - *Detect*: Record, upload and see the results of the voice audios.
+    - *Learn*: Access educational resources to learn about Parkinson’s Disease.
     - *Profile*: Manage your profile.
     - *Appointment*: Book and manage appointments with specialists.
 
@@ -147,7 +152,7 @@ Thesis/
 │   ├── babel.config.js
 │   ├── package.json
 │   └── package-lock.json
-└── README.md 
+└── README.md
 ```
 
 ## Future Work
@@ -159,6 +164,7 @@ Thesis/
 
 
 ## License
-This project is licensed under the MIT License. See the This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details. file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
 
 
