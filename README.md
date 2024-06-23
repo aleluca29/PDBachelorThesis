@@ -158,3 +158,7 @@ Thesis/
 - Enhancing the reliability of voice analysis.
 
 
+## License
+This project is licensed under the MIT License. See the This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details. file for details.
+
+
