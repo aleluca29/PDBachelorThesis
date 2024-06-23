@@ -2,8 +2,7 @@ import torch
 import torchaudio
 import logging
 import librosa
-import numpy as np
-from PDmodel.model import CNNLSTM  # Import the CNNLSTM class
+from PDmodel.model import CNNLSTM
 
 class AudioInferenceService:
     def __init__(self, model_path, device='cpu'):
@@ -14,16 +13,15 @@ class AudioInferenceService:
         logging.info("Successfully loaded the inference model.")
 
     def load_model(self, model_path):
-        # Instantiate your model architecture with the correct number of classes
-        model = CNNLSTM(n_mfcc=40, num_classes=2)  # Adjust n_mfcc as needed
-        # Load the model state dictionary
+
+        model = CNNLSTM(n_mfcc=40, num_classes=2)
+
         map_location = torch.device(self.device)
         state_dict = torch.load(model_path, map_location=map_location)
         model.load_state_dict(state_dict)
         return model
 
     def extract_features(self, waveform, sample_rate, n_mfcc=40):
-        # Extract MFCC features
         mfcc = librosa.feature.mfcc(y=waveform.numpy(), sr=sample_rate, n_mfcc=n_mfcc)
         return torch.tensor(mfcc, dtype=torch.float32)
 

@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import date, datetime
 from fastapi import HTTPException
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
@@ -14,7 +14,7 @@ class UserRepository:
             logging.error(f"Error querying user by email {email}: {e}")
             raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Database query error")
 
-    def update_user_profile(self, email: str, name: str, date_of_birth: datetime, profile_image: str):
+    def update_user_profile(self, email: str, name: str, date_of_birth: date, profile_image: str):
         try:
             logging.info(f"Updating profile for user: {email}")
             user_profile = UserProfile.objects(email=email).first()

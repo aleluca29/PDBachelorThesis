@@ -1,13 +1,4 @@
-import logging
-
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
-from werkzeug.security import generate_password_hash, check_password_hash
-from dto.userDto import UserProfileResponse
-from models.userModel import User, UserProfile, Appointment
-from datetime import datetime
-from fastapi import HTTPException
-from exceptions import UserAlreadyExistsException, UserNotFoundException
-
 import logging
 from datetime import datetime
 from fastapi import HTTPException

@@ -42,7 +42,7 @@ async def register(register_request: RegisterRequest, user_service: UserService 
     logging.info(f"Received registration request for email: {register_request.email}")
 
     try:
-        EmailStr.validate(register_request.email)  # Validate email format
+        EmailStr.validate(register_request.email)
     except ValidationError:
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Invalid email format")
 
@@ -132,8 +132,6 @@ async def get_user_profile(email: str, user_service: UserService = Depends(get_u
         logging.error(f"Error fetching user profile for {email}: {e}")
         raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR,
                             detail="An error occurred while fetching the profile")
-
-
 @router.post("/appointment", response_model=MessageResponse,
              responses={400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
 async def create_appointment(appointment_request: AppointmentRequest,
@@ -199,7 +197,7 @@ async def logout(logout_request: LogoutRequest, user_service: UserService = Depe
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Email field is required")
 
     try:
-        # Any additional logout logic can be placed here
+
         return MessageResponse(message="Logout successful")
     except Exception as e:
         logging.error(f"Logout failed: {e}")

@@ -1,12 +1,10 @@
 import os
-import logging
 from collections import Counter
 import torch
 
 import aiofiles
 from fastapi import APIRouter, File, UploadFile, HTTPException
 from fastapi.concurrency import run_in_threadpool
-from fastapi.responses import JSONResponse
 
 from dto.pdDto import PredictionResponseDTO
 from services.pdService import AudioInferenceService
@@ -35,3 +33,5 @@ async def predict(audio: UploadFile = File(...)):
 
     predicted_labels = dict(Counter(predicted_labels).most_common())
     return PredictionResponseDTO(predicted_labels=predicted_labels, overall_prediction=overall_prediction)
+
+

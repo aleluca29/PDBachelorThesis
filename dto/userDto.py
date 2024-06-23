@@ -22,13 +22,13 @@ class LoginResponse(BaseModel):
 class UserProfileUpdateRequest(BaseModel):
     userEmail: EmailStr = Field(..., example="user@example.com")
     name: str = Field(..., min_length=1)
-    date_of_birth: Optional[date]  # Allow date_of_birth to be None
-    profile_image: Optional[str] = None  # Field for profile image
+    date_of_birth: Optional[date]
+    profile_image: Optional[str] = None
 
 class UserProfileResponse(BaseModel):
     name: str
-    date_of_birth: Optional[date]  # Allow date_of_birth to be None
-    profile_image: Optional[str] = None  # Field for profile image
+    date_of_birth: Optional[date]
+    profile_image: Optional[str] = None
 
 class MessageResponse(BaseModel):
     message: str
